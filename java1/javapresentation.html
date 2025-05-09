@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Java Exception Handling</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f9;
+      color: #333;
+    }
+
+    header {
+      background: #1a237e;
+      color: white;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: white;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+    }
+
+    h2 {
+      color: #1a237e;
+      margin-top: 1.5rem;
+    }
+
+    pre {
+      background: #e8eaf6;
+      padding: 1rem;
+      border-left: 5px solid #3949ab;
+      overflow-x: auto;
+    }
+
+    .usecase {
+      margin-bottom: 1rem;
+      background: #f1f8e9;
+      padding: 0.8rem;
+      border-left: 5px solid #8bc34a;
+    }
+
+    .example {
+      background: #fff3e0;
+      padding: 1rem;
+      margin: 1rem 0;
+      border-left: 5px solid #ff9800;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: #1a237e;
+      color: white;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>JAVA Presentation </h1>
+    <h1>Java Exception Handling</h1>
+    <p>Understanding try, catch, finally with Examples</p>
+  </header>
+
+  <div class="container">
+    <h2>🔹 What is Exception Handling?</h2>
+    <p>Exception handling in Java allows a program to deal with runtime errors so the normal flow of execution can continue.</p>
+
+    <h2>🔹 try Block</h2>
+    <p><strong>Purpose:</strong> Wraps risky code that might throw an exception.</p>
+    <div class="usecase">
+      <strong>Use Case:</strong> Accessing array indexes, dividing numbers, file I/O, etc.
+    </div>
+
+    <h2>🔹 catch Block</h2>
+    <p><strong>Purpose:</strong> Catches and handles the exception thrown in try.</p>
+
+    <h2>🔹 finally Block</h2>
+    <p><strong>Purpose:</strong> Runs regardless of exception outcome – great for cleanup code.</p>
+
+    <h2>🧪 Example 1: ArithmeticException</h2>
+    <div class="example">
+      <pre><code>try {
+    int result = 10 / 0;
+} catch (ArithmeticException e) {
+    System.out.println("Error: Cannot divide by zero.");
+} finally {
+    System.out.println("Cleaning up resources...");
+}</code></pre>
+    </div>
+
+    <h2>🧪 Example 2: ArrayIndexOutOfBoundsException</h2>
+    <div class="example">
+      <pre><code>int[] arr = {1, 2, 3};
+try {
+    System.out.println(arr[5]); // invalid index
+} catch (ArrayIndexOutOfBoundsException e) {
+    System.out.println("Array index is out of bounds!");
+}</code></pre>
+    </div>
+
+    
+
+    <h2>🧪 Example 3: Multiple catch Blocks</h2>
+    <div class="example">
+      <pre><code>try {
+    int[] arr = new int[2];
+    System.out.println(arr[5]);
+    int result = 10 / 0;
+} catch (ArrayIndexOutOfBoundsException e) {
+    System.out.println("Array index error.");
+} catch (ArithmeticException e) {
+    System.out.println("Math error.");
+} finally {
+    System.out.println("Always executed.");
+}</code></pre>
+    </div>
+
+    <h2>🧪 Example 4: Real time scenerio </h2>
+    <div class="example">
+      <pre><code>
+        import java.util.ArrayList;
+import java.util.List;
+
+class PlayerSession {
+    private String playerName;
+
+    public PlayerSession(String playerName) {
+        this.playerName = playerName;
+    }
+
+    public void saveProgress() {
+        System.out.println("Saving progress for " + playerName);
+        // Simulate saving to database or disk
+    }
+
+    public void disconnect() {
+        System.out.println("Disconnecting " + playerName);
+    }
+}
+
+class GameServer {
+    private List<PlayerSession> activePlayers = new ArrayList<>();
+
+    public void addPlayer(String name) {
+        activePlayers.add(new PlayerSession(name));
+    }
+
+    public void runGameLoop() throws RuntimeException {
+        // Simulated game loop
+        System.out.println("Game loop started...");
+        throw new RuntimeException("Critical error: Server crashed unexpectedly!");
+    }
+
+    public void cleanup() {
+        System.out.println("Running server cleanup...");
+        for (PlayerSession player : activePlayers) {
+            player.saveProgress();
+            player.disconnect();
+        }
+        System.out.println("Cleanup complete. Server shutting down.");
+    }
+}
+
+public class GameServerMain {
+    public static void main(String[] args) {
+        GameServer server = new GameServer();
+        server.addPlayer("KnightX");
+        server.addPlayer("MageY");
+
+        try {
+            server.runGameLoop();
+        } catch (RuntimeException e) {
+            System.err.println("Exception caught: " + e.getMessage());
+        } finally {
+            // Ensure server cleanup runs regardless of crash
+            server.cleanup();
+        }
+    }
+}
+
+      </code></pre>
+    </div>
+
+
+
+    <h2>🧠 Use Cases Summary</h2>
+    <ul>
+      <li><strong>try:</strong> Use where you expect a possible failure.</li>
+      <li><strong>catch:</strong> Use for logging, fallbacks, or user-friendly messages.</li>
+      <li><strong>finally:</strong> Always clean up resources (close files, DB, etc.).</li>
+    </ul>
+  </div>
+
+  <footer>
+    &copy; blahhhhhh....
+  </footer>
+</body>
+</html>
